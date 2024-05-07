@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Live Chart</title>
+    <style>
+      .container {
+        max-width: 700px;
+        margin: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <canvas id="myChart"></canvas>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      const ctx = document.getElementById("myChart");
+      const labels = [];
+      const chr = new Chart(ctx, {
+        type: "line",
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: "My First Dataset",
+              data: [],
+              fill: false,
+              borderColor: "rgb(75, 192, 192)",
+              tension: 0.1,
+            },
+          ],
+        },
+        options: {
+          scales: {
+            x: {
+              type: "linear",
+              position: "bottom",
+              title: {
+                display: true,
+                text: "Time",
+              },
+            },
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: "Value",
+              },
+            },
+          },
+          animations: {
+            tension: {
+              duration: 1000,
+              easing: "linear",
+              from: 1,
+              to: 0,
+              loop: true,
+            },
+          },
+          scales: {
+            y: {
+              // defining min and max so hiding the dataset does not change scale range
+              min: 0,
+              max: 100,
+            },
+          },
+        },
+      });
+
+      function addNum() {
+        let num = parseInt(Math.random() * 100);
+        // chr.data.labels.push(chr.data.labels.length);
+        chr.data.datasets[0].data.push(num);
+        labels.push(labels.length);
+        // console.log(num);
+        chr.update();
+      }
+      setInterval(addNum, 2000);
+    </script>
+  </body>
+</html>
